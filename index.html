@@ -1,40 +1,300 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wedding Invitation</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Great+Vibes&family=Poppins:wght@300;400&display=swap" rel="stylesheet"><style>
+
+<title>Haikal & Mizah Wedding</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Great+Vibes&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
 body {
   margin:0;
   font-family:'Poppins', sans-serif;
   background:#f3f7fd;
-  overflow-x:hidden;
 }
 
-h1,h2 {font-family:'Playfair Display', serif;}
-.elegant {font-family:'Great Vibes', cursive; font-size:40px;}
+/* COVER (ENVELOPE STYLE) */
+.cover {
+  background: url('cover.jpg') center/cover no-repeat;
+  height:100vh;
+  position:relative;
+}
 
+.cover::before {
+  content:'';
+  position:absolute;
+  width:100%;
+  height:100%;
+  background: rgba(243,247,253,0.5);
+}
+
+.overlay {
+  position:absolute;
+  bottom:50px;
+  width:100%;
+  text-align:center;
+}
+
+.tap-text {
+  letter-spacing:3px;
+  font-size:12px;
+  color:#666;
+}
+
+/* MUSIC BUTTON */
+.music-btn {
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(10px);
+  border:none;
+  padding:12px;
+  border-radius:50%;
+  z-index:999;
+}
+
+/* NAVBAR */
+.navbar {
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(245,236,220,0.7);
+  backdrop-filter:blur(20px);
+  border-radius:50px;
+  padding:10px 18px;
+  display:flex;
+  gap:12px;
+  z-index:999;
+}
+
+.navbar button {
+  border:none;
+  background:transparent;
+  font-size:18px;
+  padding:10px;
+  border-radius:50%;
+}
+
+.navbar button:active {
+  transform:scale(0.8);
+}
+
+/* SECTION */
 section {
   min-height:100vh;
   padding:60px 20px;
   text-align:center;
 }
 
-/* PREMIUM GLASS NAVBAR */
-.navbar {
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(245,236,220,0.6);
-  backdrop-filter:blur(20px);
-  border-radius:50px;
-  padding:10px 18px;
-  display:flex;
-  gap:12px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.1);
-  z-index:999;
+h2 {font-family:'Playfair Display', serif;}
+.elegant {font-family:'Great Vibes', cursive; font-size:40px;}
+
+/* GALLERY */
+.gallery img {
+  width:90%;
+  margin:10px 0;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
+/* RSVP */
+form {
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  max-width:400px;
+  margin:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+input,select,textarea {
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+
+button.submit {
+  margin-top:15px;
+  background:#dbe7f7;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+}
+
+/* COUNTDOWN */
+.countdown {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+.box {
+  background:white;
+  padding:15px;
+  border-radius:15px;
+}
+
+/* WHATSAPP */
+.wa-btn {
+  display:inline-block;
+  margin-top:15px;
+  padding:14px 25px;
+  border-radius:30px;
+  background: linear-gradient(135deg, #25D366, #1ebe5d);
+  color:white;
+  text-decoration:none;
+}
+
+/* LOCATION */
+.location a {
+  display:inline-block;
+  margin-top:10px;
+  padding:10px 20px;
+  background:#dbe7f7;
+  border-radius:10px;
+  text-decoration:none;
+}
+
+html {scroll-behavior:smooth;}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" onclick="toggleMusic()">▶</button>
+
+<!-- COVER -->
+<section id="home" class="cover" onclick="openInvite()">
+  <div class="overlay">
+    <p class="tap-text">TAP TO OPEN INVITATION</p>
+  </div>
+</section>
+
+<!-- OPENING -->
+<section id="opening">
+  <h2>بِسْمِ ٱللَّٰهِ</h2>
+  <p>Dengan berbesar hati...</p>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="gallery">
+  <h2 class="elegant">Haikal & Mizah</h2>
+  <img src="img1.jpg">
+  <img src="img2.jpg">
+  <img src="img3.jpg">
+</section>
+
+<!-- RSVP -->
+<section id="rsvp">
+  <h2>RSVP</h2>
+  <form>
+    <input type="text" placeholder="Nama penuh" required>
+
+    <label><input type="radio" name="attend" onclick="toggleGuest(false)"> Hadir</label>
+    <label><input type="radio" name="attend" onclick="toggleGuest(true)"> Tidak Hadir</label>
+
+    <select id="guest" onchange="checkMore()">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option value="more">More</option>
+    </select>
+
+    <input type="number" id="moreInput" style="display:none" placeholder="Bilangan">
+
+    <textarea placeholder="Ucapan" required></textarea>
+    <button class="submit">Submit</button>
+  </form>
+</section>
+
+<!-- COUNTDOWN -->
+<section id="calendar">
+  <div class="countdown">
+    <div class="box" id="days"></div>
+    <div class="box" id="hours"></div>
+    <div class="box" id="minutes"></div>
+    <div class="box" id="seconds"></div>
+  </div>
+</section>
+
+<!-- GIFT -->
+<section id="gift">
+  <h2>Gift</h2>
+  <p>TnG/CIMB 7625456895</p>
+</section>
+
+<!-- LOCATION -->
+<section id="location" class="location">
+  <h2>Location</h2>
+  <a href="https://maps.app.goo.gl/H7YJa4Rj7AeRVAL2A" target="_blank">Open Map</a>
+</section>
+
+<!-- WHATSAPP -->
+<section id="whatsapp">
+  <h2>Hubungi Kami</h2>
+  <a href="https://wa.me/60123122160" target="_blank" class="wa-btn">WhatsApp</a>
+</section>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <button onclick="scrollToSection('home')">🏠</button>
+  <button onclick="scrollToSection('opening')">🚪</button>
+  <button onclick="scrollToSection('gallery')">📷</button>
+  <button onclick="scrollToSection('rsvp')">📝</button>
+  <button onclick="scrollToSection('calendar')">📅</button>
+  <button onclick="scrollToSection('gift')">🎁</button>
+  <button onclick="scrollToSection('location')">📍</button>
+  <button onclick="scrollToSection('whatsapp')">💬</button>
+</div>
+
+<script>
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView();
+}
+
+function openInvite(){
+  document.getElementById('music').play();
+}
+
+function toggleMusic(){
+  let music=document.getElementById('music');
+  music.paused?music.play():music.pause();
+}
+
+function checkMore(){
+  let val=document.getElementById('guest').value;
+  document.getElementById('moreInput').style.display = val==='more'?'block':'none';
+}
+
+function toggleGuest(hide){
+  document.getElementById('guest').style.display = hide?'none':'block';
+}
+
+let target=new Date("2027-01-15 11:00:00").getTime();
+
+setInterval(()=>{
+  let now=new Date().getTime();
+  let diff=target-now;
+
+  document.getElementById('days').innerHTML=Math.floor(diff/(1000*60*60*24));
+  document.getElementById('hours').innerHTML=Math.floor((diff/(1000*60*60))%24);
+  document.getElementById('minutes').innerHTML=Math.floor((diff/(1000*60))%60);
+  document.getElementById('seconds').innerHTML=Math.floor((diff/1000)%60);
+},1000);
+</script>
+
+</body>
+</html>
 .navbar button {
   border:none;
   background:transparent;
